@@ -1,19 +1,24 @@
 "use client";
 import axios from "axios";
-import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-export default function DeleteButton({ id, path }: { id: any; path: string }) {
+export default function DeleteButton({
+	id,
+	path,
+}: {
+	id: string;
+	path: string;
+}) {
 	const router = useRouter();
-	const deletePost = async (id: any) => {
+	const deletePost = async (id: string) => {
 		try {
-			await axios.delete(`${path}`, {
+			await axios.delete(`${path}/${id}`, {
 				data: {
 					id,
 				},
 			});
-		} catch (error: any) {
+		} catch (error) {
 			toast.error("Error", error);
 		} finally {
 			router.refresh();
@@ -22,11 +27,10 @@ export default function DeleteButton({ id, path }: { id: any; path: string }) {
 	};
 
 	return (
-		<Link
-			href=""
-			className="text-[16px] cursor-pointer font-Poppins font-medium bg-[#081226] text-white px-4 py-2 rounded-lg"
+		<button
+			className="text-[14px]  font-semibold bg-[#081226] text-white py-2 px-4 rounded-lg"
 			onClick={() => deletePost(id)}>
 			Delete
-		</Link>
+		</button>
 	);
 }

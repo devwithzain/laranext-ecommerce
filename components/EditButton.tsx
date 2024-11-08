@@ -7,11 +7,11 @@ export default function EditButton({
 	path,
 	url,
 }: {
-	id: any;
+	id: string;
 	path: string;
 	url: string;
 }) {
-	const editPost = async (id: any) => {
+	const editPost = async (id: string) => {
 		try {
 			await axios.patch(`${path}/${id}`, {
 				data: {
@@ -26,8 +26,8 @@ export default function EditButton({
 	return (
 		<Link
 			onClick={() => editPost(id)}
-			href={`/dashboard/${url}/${id}`}
-			className="text-[16px] cursor-pointer font-Poppins font-medium bg-[#081226] text-white px-4 py-2 rounded-lg">
+			href={`/${url}/${id}`}
+			className="text-[14px]  font-semibold bg-[#081226] text-white py-2 px-4 rounded-lg">
 			Edit
 		</Link>
 	);

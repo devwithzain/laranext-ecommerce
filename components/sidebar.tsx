@@ -20,12 +20,12 @@ export default function Sidebar() {
 						width="23"
 						alt="Logo"
 					/>
-					<h1 className="text-[24px] font-semibold uppercase text-[#081226] font-Poppins">
-						Bella Han
+					<h1 className="text-[24px] font-semibold uppercase text-[#081226] ">
+						ZeyPc
 					</h1>
 				</Link>
 				<hr className="bg-black text-black w-full" />
-				<h1 className="text-[#081226] text-[16px] font-Poppins uppercase font-medium text-left w-full">
+				<h1 className="text-[#081226] text-[16px]  uppercase font-medium text-left w-full">
 					Main Menu
 				</h1>
 			</div>
@@ -41,13 +41,13 @@ export default function Sidebar() {
 									pathName === item.href ? "bg-[#081226]" : ""
 								}`}>
 								<div
-									className={`text-[#081226] group-hover:text-white font-Poppins text-[22px] ${
+									className={`text-[#081226] group-hover:text-white  text-[22px] ${
 										pathName === item.href ? "text-white" : ""
 									}`}>
 									{item.icon}
 								</div>
 								<h1
-									className={`text-[#081226] group-hover:text-white font-Poppins ${
+									className={`text-[#081226] group-hover:text-white  ${
 										pathName === item.href ? "text-white" : ""
 									}`}>
 									{item.title}
@@ -61,11 +61,9 @@ export default function Sidebar() {
 						<div className="transition-all duration-200 ease-linear py-2 px-4 rounded-lg cursor-pointer w-full flex items-center gap-2 group-hover:bg-[#081226]">
 							<FiLogOut
 								size={22}
-								className="group-hover:text-white text-[#081226] font-Poppins"
+								className="group-hover:text-white text-[#081226] "
 							/>
-							<h1 className="group-hover:text-white text-[#081226] font-Poppins">
-								Logout
-							</h1>
+							<h1 className="group-hover:text-white text-[#081226] ">Logout</h1>
 						</div>
 					</div>
 				</div>

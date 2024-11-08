@@ -1,5 +1,5 @@
 export type TproductColumnProps = {
-   id: string;
+   uuid: string;
    name: string;
    category: string;
    image: string;
@@ -9,4 +9,14 @@ export type TproductColumnProps = {
    isFeatured: boolean;
    isArchived: boolean;
    topBrands: boolean;
+};
+
+export type TcategoriesProps = {
+   uuid: string;
+   name: string;
+};
+
+export type TsubcategoriesProps = {
+   uuid: string;
+   name: string;
 };

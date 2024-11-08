@@ -13,19 +13,19 @@ export const sideBarItem = [
 	{
 		id: 2,
 		title: "Product Management",
-		href: "/add-product",
+		href: "/products",
 		icon: <FaHome />,
 	},
 	{
 		id: 3,
 		title: "Category Management",
-		href: "/add-category",
+		href: "/categories",
 		icon: <BsBriefcaseFill />,
 	},
 	{
 		id: 4,
 		title: "Sub Category Management",
-		href: "/add-sub-category",
+		href: "/subcategories",
 		icon: <IoMdContact />,
 	},
 ];

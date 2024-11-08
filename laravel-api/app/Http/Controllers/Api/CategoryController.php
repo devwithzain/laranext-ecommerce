@@ -41,9 +41,9 @@ class CategoryController extends Controller
             "data" => new CategoryResource($product)
         ], );
     }
-    public function show(string $id)
+    public function show(string $uuid)
     {
-        $category = Category::find($id);
+        $category = Category::find($uuid);
         if (!$category) {
             return response()->json([
                 'error' => 'Category Not Found.'
