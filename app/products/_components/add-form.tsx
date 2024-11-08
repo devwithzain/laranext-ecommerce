@@ -56,28 +56,46 @@ export default function AddForm() {
 								<div>
 									<input
 										{...register("name")}
-										placeholder=" "
+										placeholder="Name"
 										type="text"
-										className="peer p-2  pt-6 w-full font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70"
+										className="text-sm p-4 w-full font-light bg-white border-2 placeholder:text-gray-700 rounded-md outline-none"
 									/>
-									<label className="absolute text-sm duration-150 tracking-tight leading-tight  transform -translate-y-3 top-5 z-10 left-0 pl-4 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">
-										Name
-									</label>
 									{errors.name && (
 										<span className="text-red-500">{errors.name.message}</span>
 									)}
 								</div>
 							</div>
 							<div className="relative w-full">
-								<input
+								<select
 									{...register("category")}
-									placeholder=" "
-									type="text"
-									className="peer p-2  pt-6 w-full font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70"
-								/>
-								<label className="absolute text-sm duration-150 tracking-tight leading-tight  transform -translate-y-3 top-5 z-10 left-0 pl-4 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">
-									Category
-								</label>
+									className="text-sm p-4 w-full font-light bg-white border-2 placeholder:text-gray-700 rounded-md outline-none appearance-none pr-10"
+									defaultValue="">
+									<option
+										value=""
+										disabled
+										hidden>
+										Choose a category
+									</option>
+									<option value="US">United States</option>
+									<option value="CA">Canada</option>
+									<option value="FR">France</option>
+									<option value="DE">Germany</option>
+								</select>
+								<div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-5 w-5 text-gray-700"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor">
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											strokeWidth="2"
+											d="M19 9l-7 7-7-7"
+										/>
+									</svg>
+								</div>
 								{errors.category && (
 									<span className="text-red-500">
 										{errors.category.message}
@@ -85,15 +103,36 @@ export default function AddForm() {
 								)}
 							</div>
 							<div className="relative w-full">
-								<input
+								<select
 									{...register("subCategory")}
-									placeholder=" "
-									type="text"
-									className="peer p-2  pt-6 w-full font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70"
-								/>
-								<label className="absolute text-sm duration-150 tracking-tight leading-tight  transform -translate-y-3 top-5 z-10 left-0 pl-4 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">
-									Sub Category
-								</label>
+									className="text-sm p-4 w-full font-light bg-white border-2 placeholder:text-gray-700 rounded-md outline-none appearance-none pr-10"
+									defaultValue="">
+									<option
+										value=""
+										disabled
+										hidden>
+										Choose a Sub Category
+									</option>
+									<option value="US">United States</option>
+									<option value="CA">Canada</option>
+									<option value="FR">France</option>
+									<option value="DE">Germany</option>
+								</select>
+								<div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-5 w-5 text-gray-700"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor">
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											strokeWidth="2"
+											d="M19 9l-7 7-7-7"
+										/>
+									</svg>
+								</div>
 								{errors.subCategory && (
 									<span className="text-red-500">
 										{errors.subCategory.message}
@@ -105,13 +144,10 @@ export default function AddForm() {
 							<div className="relative w-full">
 								<input
 									{...register("shortDescription")}
-									placeholder=" "
+									placeholder="Short Description"
 									type="text"
-									className="peer p-2  pt-6 w-full font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70"
+									className="text-sm p-4 w-full font-light bg-white border-2 placeholder:text-gray-700 rounded-md outline-none"
 								/>
-								<label className="absolute text-sm duration-150 tracking-tight leading-tight  transform -translate-y-3 top-5 z-10 left-0 pl-4 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">
-									Short Description
-								</label>
 								{errors.shortDescription && (
 									<span className="text-red-500">
 										{errors.shortDescription.message}
@@ -122,13 +158,10 @@ export default function AddForm() {
 						<div className="relative w-full">
 							<input
 								{...register("longDescription")}
-								placeholder=" "
+								placeholder="Long Description"
 								type="text"
-								className="peer p-2  pt-6 w-full font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70"
+								className="text-sm p-4 w-full font-light bg-white border-2 placeholder:text-gray-700 rounded-md outline-none"
 							/>
-							<label className="absolute text-sm duration-150 tracking-tight leading-tight  transform -translate-y-3 top-5 z-10 left-0 pl-4 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">
-								Long Description
-							</label>
 							{errors.longDescription && (
 								<span className="text-red-500">
 									{errors.longDescription.message}
@@ -136,16 +169,21 @@ export default function AddForm() {
 							)}
 						</div>
 						<div className="w-full flex items-center gap-2">
-							<div className="relative w-full bg-white border-2 rounded-md outline-none">
+							<div className="relative w-full bg-white border-2 placeholder:text-gray-700 rounded-md outline-none">
 								<div className="flex flex-row items-start space-x-3 p-4">
 									<input
+										id="brands"
 										type="checkbox"
 										{...register("topBrands")}
 										className="w-5 h-5 cursor-pointer"
 									/>
 									<div className="space-y-1 leading-none">
-										<label className="text-sm font-medium">Top Brands</label>
-										<p className="text-xs text-gray-500">Top Products Brand</p>
+										<label
+											htmlFor="brands"
+											className="text-sm font-medium text-gray-700">
+											Top Brands
+										</label>
+										<p className="text-xs text-gray-700">Top Products Brand</p>
 									</div>
 								</div>
 								{errors.topBrands && (
@@ -154,16 +192,21 @@ export default function AddForm() {
 									</span>
 								)}
 							</div>
-							<div className="relative w-full bg-white border-2 rounded-md outline-none">
+							<div className="relative w-full bg-white border-2 placeholder:text-gray-700 rounded-md outline-none">
 								<div className="flex flex-row items-start space-x-3 p-4">
 									<input
+										id="featured"
 										type="checkbox"
 										{...register("isFeatured")}
 										className="w-5 h-5 cursor-pointer"
 									/>
 									<div className="space-y-1 leading-none">
-										<label className="text-sm font-medium">Featured</label>
-										<p className="text-xs text-gray-500">
+										<label
+											htmlFor="featured"
+											className="text-sm font-medium text-gray-700">
+											Featured
+										</label>
+										<p className="text-xs text-gray-700">
 											This product will appear on home page in the store.
 										</p>
 									</div>
@@ -174,16 +217,21 @@ export default function AddForm() {
 									</span>
 								)}
 							</div>
-							<div className="relative w-full bg-white border-2 rounded-md outline-none">
+							<div className="relative w-full bg-white border-2 placeholder:text-gray-700 rounded-md outline-none">
 								<div className="flex flex-row items-start space-x-3 p-4">
 									<input
+										id="archived"
 										type="checkbox"
 										{...register("isArchived")}
 										className="w-5 h-5 cursor-pointer"
 									/>
 									<div className="space-y-1 leading-none">
-										<label className="text-sm font-medium">Archived</label>
-										<p className="text-xs text-gray-500">
+										<label
+											htmlFor="archived"
+											className="text-sm font-medium text-gray-700">
+											Archived
+										</label>
+										<p className="text-xs text-gray-700">
 											This product will not appear anywhere in the store.
 										</p>
 									</div>
@@ -198,13 +246,10 @@ export default function AddForm() {
 						<div className="relative">
 							<input
 								{...register("image")}
-								placeholder=" "
+								placeholder="Images"
 								type="text"
-								className="peer p-2  pt-6 w-fit font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70"
+								className="p-4 text-sm w-fit font-light bg-white border-2 placeholder:text-gray-700 rounded-md outline-none"
 							/>
-							<label className="absolute text-sm duration-150 tracking-tight leading-tight  transform -translate-y-3 top-5 z-10 left-0 pl-4 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">
-								Upload Images
-							</label>
 							{errors.image && (
 								<span className="text-red-500">{errors.image.message}</span>
 							)}
