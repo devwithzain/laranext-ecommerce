@@ -6,9 +6,26 @@ import { useRouter } from "next/navigation";
 import { Navbar, Sidebar } from "@/components";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TpageAboutSectionData, homePageAboutSchema } from "@/schemas";
+import getCategories from "@/actions/get-categories";
+import { useEffect, useState } from "react";
+import getSubCategories from "@/actions/get-subCategories";
 
 export default function AddForm() {
 	const router = useRouter();
+	const [categories, setCategories] = useState();
+	const [subCategories, setSubCategories] = useState();
+	useEffect(() => {
+		const getCategory = async () => {
+			const data = await getCategories();
+			setCategories(data);
+		};
+		const getSubCategory = async () => {
+			const data = await getSubCategories();
+			setSubCategories(data);
+		};
+		getCategory();
+		getSubCategory();
+	}, []);
 
 	const {
 		register,
@@ -74,12 +91,15 @@ export default function AddForm() {
 										value=""
 										disabled
 										hidden>
-										Choose a category
+										Select a Category
 									</option>
-									<option value="US">United States</option>
-									<option value="CA">Canada</option>
-									<option value="FR">France</option>
-									<option value="DE">Germany</option>
+									{categories?.data?.map((item) => (
+										<option
+											key={item.id}
+											value={item.name}>
+											{item.name}
+										</option>
+									))}
 								</select>
 								<div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
 									<svg
@@ -111,12 +131,15 @@ export default function AddForm() {
 										value=""
 										disabled
 										hidden>
-										Choose a Sub Category
+										Select a Sub Category
 									</option>
-									<option value="US">United States</option>
-									<option value="CA">Canada</option>
-									<option value="FR">France</option>
-									<option value="DE">Germany</option>
+									{subCategories?.data?.map((item) => (
+										<option
+											key={item.id}
+											value={item.name}>
+											{item.name}
+										</option>
+									))}
 								</select>
 								<div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
 									<svg
@@ -244,15 +267,18 @@ export default function AddForm() {
 							</div>
 						</div>
 						<div className="relative">
-							<input
-								{...register("image")}
-								placeholder="Images"
-								type="text"
-								className="p-4 text-sm w-fit font-light bg-white border-2 placeholder:text-gray-700 rounded-md outline-none"
-							/>
-							{errors.image && (
-								<span className="text-red-500">{errors.image.message}</span>
-							)}
+							<div className="mb-5">
+								<label className="block text-sm font-medium text-gray-900">
+									Upload File
+								</label>
+								<input
+									type="file"
+									onChange={(e) => setFile(e.target.files[0])}
+									name="image"
+									id="image"
+									className="file-input file-input-bordered file-input-secondary w-full max-w-xs"
+								/>
+							</div>
 						</div>
 						<input
 							type="submit"
