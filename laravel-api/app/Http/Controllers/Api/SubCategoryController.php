@@ -30,20 +30,22 @@ class SubCategoryController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'status' => 422,
-                'errors' => $validator->messages()
+                'errors' => $validator->customMessages()
             ], 422);
         }
         $product = SubCategory::create([
             'name' => $request->name,
+            'category_id' => $request->category_id,
+            'category_name' => $request->category_name,
         ]);
         return response()->json([
             'success' => 'SubCategory created successfully',
             "data" => new SubCategoryResource($product)
         ], );
     }
-    public function show(string $uuid)
+    public function show(string $id)
     {
-        $subcategory = SubCategory::find($uuid);
+        $subcategory = SubCategory::find($id);
         if (!$subcategory) {
             return response()->json([
                 'error' => 'Sub Category Not Found.'
@@ -54,10 +56,10 @@ class SubCategoryController extends Controller
             'subcategory' => $subcategory
         ], 200);
     }
-    public function update(Request $request, string $uuid)
+    public function update(Request $request, string $id)
     {
         try {
-            $subCategory = SubCategory::where('uuid', $uuid)->first();
+            $subCategory = SubCategory::where('id', $id)->first();
             if (!$subCategory) {
                 return response()->json([
                     'error' => 'Sub Category Not Found.'
@@ -77,9 +79,9 @@ class SubCategoryController extends Controller
             ], 500);
         }
     }
-    public function destroy(string $uuid)
+    public function destroy(string $id)
     {
-        $subCategory = SubCategory::find($uuid);
+        $subCategory = SubCategory::find($id);
         if (!$subCategory) {
             return response()->json([
                 'error' => 'Sub Category Not Found.'

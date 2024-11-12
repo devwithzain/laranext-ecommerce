@@ -10,8 +10,10 @@ class SubCategoryResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'uuid' => $this->uuid,
+            'id' => $this->id,
             'name' => $this->name,
+            'category_id' => $this->category_id,
+            'category_name' => $this->category_name,
         ];
     }
 }

@@ -41,9 +41,9 @@ class CategoryController extends Controller
             "data" => new CategoryResource($product)
         ], );
     }
-    public function show(string $uuid)
+    public function show(string $id)
     {
-        $category = Category::find($uuid);
+        $category = Category::find($id);
         if (!$category) {
             return response()->json([
                 'error' => 'Category Not Found.'
@@ -54,10 +54,10 @@ class CategoryController extends Controller
             'category' => $category
         ], 200);
     }
-    public function update(Request $request, string $uuid)
+    public function update(Request $request, string $id)
     {
         try {
-            $category = Category::where('uuid', $uuid)->first();
+            $category = Category::where('id', $id)->first();
             if (!$category) {
                 return response()->json([
                     'error' => 'Category Not Found.'
@@ -77,9 +77,9 @@ class CategoryController extends Controller
             ], 500);
         }
     }
-    public function destroy(string $uuid)
+    public function destroy(string $id)
     {
-        $category = Category::find($uuid);
+        $category = Category::find($id);
         if (!$category) {
             return response()->json([
                 'error' => 'Category Not Found.'
