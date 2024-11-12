@@ -37,7 +37,7 @@ export default async function CategoryPage() {
 							</thead>
 							<tbody>
 								{categories?.data?.map((item: TcategoriesProps) => (
-									<tr key={item.uuid}>
+									<tr key={item.id}>
 										<td className="border border-gray-200 px-4 py-2  w-fit">
 											<div>
 												<h1 className="text-[15px] text-black font-medium">
@@ -48,12 +48,12 @@ export default async function CategoryPage() {
 										<td className="border border-gray-200 px-4 py-2  w-fit">
 											<div className="flex items-end justify-end gap-4">
 												<EditButton
-													id={item.uuid}
+													id={item.id}
 													path={`${process.env.NEXT_PUBLIC_LARAVEL_BACKEND_API_URL}/categories`}
 													url="categories"
 												/>
 												<DeleteButton
-													id={item.uuid}
+													id={item.id}
 													path={`${process.env.NEXT_PUBLIC_LARAVEL_BACKEND_API_URL}/categories`}
 												/>
 											</div>

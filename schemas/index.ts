@@ -6,7 +6,6 @@ export const homePageAboutSchema = z.object({
    subCategory: z.string(),
    shortDescription: z.string(),
    longDescription: z.string(),
-   image: z.string().optional(),
    isFeatured: z.boolean().optional(),
    isArchived: z.boolean().optional(),
    topBrands: z.boolean().optional(),
@@ -18,6 +17,8 @@ export const categorySchema = z.object({
 
 export const subCategorySchema = z.object({
    name: z.string(),
+   category_id: z.string(),
+   category_name: z.string(),
 });
 
 export type TcategoryProps = z.infer<typeof categorySchema>;

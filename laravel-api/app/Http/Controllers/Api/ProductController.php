@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\ProductResource;
 
 class ProductController extends Controller
 {
@@ -15,9 +16,7 @@ class ProductController extends Controller
     {
         $products = Product::get();
         if ($products->count() > 0) {
-            return response()->json([
-                'products' => $products
-            ], 200);
+            return ProductResource::collection($products);
         } else {
             return response()->json([
                 'status' => 404,

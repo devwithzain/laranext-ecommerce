@@ -52,7 +52,7 @@ export default async function Product() {
 										Top Brands
 									</th>
 									<th className="border border-gray-200 px-4 py-2  text-left">
-										Image
+										Created At
 									</th>
 									<th className="border border-gray-200 px-4 py-2  text-left">
 										Actions
@@ -60,8 +60,8 @@ export default async function Product() {
 								</tr>
 							</thead>
 							<tbody>
-								{products?.data?.map((item: TproductColumnProps) => (
-									<tr key={item.uuid}>
+								{products?.data.map((item: TproductColumnProps) => (
+									<tr key={item.id}>
 										<td className="border border-gray-200 px-4 py-2  w-fit">
 											<div>
 												<h1 className="text-[15px] text-black font-medium ">
@@ -121,19 +121,20 @@ export default async function Product() {
 										<td className="border border-gray-200 px-4 py-2  w-fit">
 											<div>
 												<p className="text-[15px] text-black font-medium ">
-													{item.image}
+													{/* {item.image} */}
+													new Date()
 												</p>
 											</div>
 										</td>
 										<td className="border border-gray-200 px-4 py-2  w-fit">
 											<div className="flex items-end justify-end gap-4">
 												<EditButton
-													id={item.uuid}
+													id={item.id}
 													path={`${process.env.NEXT_PUBLIC_LARAVEL_BACKEND_API_URL}/products`}
 													url="products"
 												/>
 												<DeleteButton
-													id={item.uuid}
+													id={item.id}
 													path={`${process.env.NEXT_PUBLIC_LARAVEL_BACKEND_API_URL}/products`}
 												/>
 											</div>

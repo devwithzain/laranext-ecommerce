@@ -3,12 +3,12 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { Navbar, Sidebar } from "@/components";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { TpageAboutSectionData, homePageAboutSchema } from "@/schemas";
-import getCategories from "@/actions/get-categories";
 import { useEffect, useState } from "react";
+import { Navbar, Sidebar } from "@/components";
+import getCategories from "@/actions/get-categories";
+import { zodResolver } from "@hookform/resolvers/zod";
 import getSubCategories from "@/actions/get-subCategories";
+import { TpageAboutSectionData, homePageAboutSchema } from "@/schemas";
 
 export default function AddForm() {
 	const router = useRouter();
@@ -37,6 +37,7 @@ export default function AddForm() {
 	});
 
 	const onSubmits = async (data: TpageAboutSectionData) => {
+		console.log(data);
 		await axios
 			.post(`${process.env.NEXT_PUBLIC_LARAVEL_BACKEND_API_URL}/products`, data)
 			.then((response) => {
@@ -45,8 +46,10 @@ export default function AddForm() {
 					router.push("/products");
 					router.refresh();
 				}
+				console.log(response);
 			})
 			.catch((err) => {
+				console.log(err);
 				if (err.response) {
 					toast.error(err.response.data.message);
 					reset();
@@ -266,19 +269,15 @@ export default function AddForm() {
 								)}
 							</div>
 						</div>
-						<div className="relative">
-							<div className="mb-5">
-								<label className="block text-sm font-medium text-gray-900">
-									Upload File
-								</label>
-								<input
-									type="file"
-									onChange={(e) => setFile(e.target.files[0])}
-									name="image"
-									id="image"
-									className="file-input file-input-bordered file-input-secondary w-full max-w-xs"
-								/>
-							</div>
+						<div className="mb-5">
+							<label className="block text-sm font-medium text-gray-900">
+								Upload File
+							</label>
+							<input
+								type="file"
+								{...register("image")}
+								className="file-input file-input-bordered file-input-secondary w-full max-w-xs"
+							/>
 						</div>
 						<input
 							type="submit"

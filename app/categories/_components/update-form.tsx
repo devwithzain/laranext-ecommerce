@@ -24,7 +24,7 @@ export default function UpdateForm({ response }: any) {
 	const onSubmits = async (data: TcategoryProps) => {
 		await axios
 			.patch(
-				`${process.env.NEXT_PUBLIC_LARAVEL_BACKEND_API_URL}/categories${response.category.uuid}`,
+				`${process.env.NEXT_PUBLIC_LARAVEL_BACKEND_API_URL}/categories${response.category.id}`,
 				data,
 			)
 			.then((response) => {

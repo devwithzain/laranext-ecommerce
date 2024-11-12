@@ -33,7 +33,7 @@ export default function UpdateForm({ response }: any) {
 	const onSubmits = async (data: TpageAboutSectionData) => {
 		await axios
 			.patch(
-				`${process.env.NEXT_PUBLIC_LARAVEL_BACKEND_API_URL}/products/${response.product.uuid}`,
+				`${process.env.NEXT_PUBLIC_LARAVEL_BACKEND_API_URL}/products/${response.product.id}`,
 				data,
 			)
 			.then((response) => {
