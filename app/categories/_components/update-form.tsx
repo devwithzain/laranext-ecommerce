@@ -24,7 +24,7 @@ export default function UpdateForm({ response }: any) {
 	const onSubmits = async (data: TcategoryProps) => {
 		await axios
 			.patch(
-				`${process.env.NEXT_PUBLIC_LARAVEL_BACKEND_API_URL}/categories${response.category.id}`,
+				`${process.env.NEXT_PUBLIC_LARAVEL_BACKEND_API_URL}/categories/${response.category.id}`,
 				data,
 			)
 			.then((response) => {
@@ -72,7 +72,7 @@ export default function UpdateForm({ response }: any) {
 						</div>
 						<input
 							type="submit"
-							value={`${isSubmitting ? "Loading..." : "Create"}`}
+							value={`${isSubmitting ? "Loading..." : "Update"}`}
 							className="w-fit text-[17px] cursor-pointer text-white font-medium bg-[#081226] px-4 py-2 rounded-lg"
 							disabled={isSubmitting}
 						/>

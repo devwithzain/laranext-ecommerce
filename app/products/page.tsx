@@ -43,16 +43,7 @@ export default async function Product() {
 										Long Description
 									</th>
 									<th className="border border-gray-200 px-4 py-2  text-left">
-										IsFeatured
-									</th>
-									<th className="border border-gray-200 px-4 py-2  text-left">
-										IsArchived
-									</th>
-									<th className="border border-gray-200 px-4 py-2  text-left">
-										Top Brands
-									</th>
-									<th className="border border-gray-200 px-4 py-2  text-left">
-										Created At
+										Image
 									</th>
 									<th className="border border-gray-200 px-4 py-2  text-left">
 										Actions
@@ -100,29 +91,7 @@ export default async function Product() {
 										<td className="border border-gray-200 px-4 py-2  w-fit">
 											<div>
 												<p className="text-[15px] text-black font-medium ">
-													{item.isFeatured}
-												</p>
-											</div>
-										</td>
-										<td className="border border-gray-200 px-4 py-2  w-fit">
-											<div>
-												<p className="text-[15px] text-black font-medium ">
-													{item.isArchived}
-												</p>
-											</div>
-										</td>
-										<td className="border border-gray-200 px-4 py-2  w-fit">
-											<div>
-												<p className="text-[15px] text-black font-medium ">
-													{item.topBrands}
-												</p>
-											</div>
-										</td>
-										<td className="border border-gray-200 px-4 py-2  w-fit">
-											<div>
-												<p className="text-[15px] text-black font-medium ">
-													{/* {item.image} */}
-													new Date()
+													{item.image}
 												</p>
 											</div>
 										</td>

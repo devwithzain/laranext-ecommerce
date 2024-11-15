@@ -8,42 +8,24 @@ class ProductRequest extends FormRequest
 {
     public function rules(): array
     {
-        if (request()->isMethod('post')) {
-            return [
-                'name' => 'required|string|max:258',
-                'category' => 'required|string|max:258',
-                'subCategory' => 'required|string|max:258',
-                'shortDescription' => 'required|string|max:258',
-                'longDescription' => 'required|string|max:258',
-                'isFeatured' => 'required|boolean',
-                'isArchived' => 'required|boolean',
-                'topBrands' => 'required|boolean',
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ];
-        } else {
-            return [
-                'name' => 'required|string|max:258',
-                'category' => 'required|string|max:258',
-                'subCategory' => 'required|string|max:258',
-                'shortDescription' => 'required|string|max:258',
-                'longDescription' => 'required|string|max:258',
-                'isFeatured' => 'required|boolean',
-                'isArchived' => 'required|boolean',
-                'topBrands' => 'required|boolean',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ];
-        }
+        return [
+            'name' => 'required|string|max:258',
+            'category' => 'required|string|max:258',
+            'subCategory' => 'required|string|max:258',
+            'shortDescription' => 'required|string|max:258',
+            'longDescription' => 'required|string|max:258',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+        ];
     }
     public function messages()
     {
-        if (request()->isMethod('post')) {
-            return [
-                'name.required' => 'Name is required!',
-            ];
-        } else {
-            return [
-                'name.required' => 'Name is required!',
-            ];
-        }
+        return [
+            'name.required' => 'The name field is required!',
+            'category.required' => 'Category field is required!',
+            'subCategory.required' => 'Sub Categorys field is required!',
+            'shortDescription.required' => 'Short Descriptions field is required!',
+            'longDescription.required' => 'Long Descriptions field is required!',
+            'image.required' => 'Image field is required!',
+        ];
     }
 }

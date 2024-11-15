@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\ProductResource;
+use function Laravel\Prompts\error;
 
 class ProductController extends Controller
 {
@@ -27,36 +28,33 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         try {
-            $name = $request->name;
-            $category = $request->category;
-            $subCategory = $request->subCategory;
-            $shortDescription = $request->shortDescription;
-            $longDescription = $request->longDescription;
-            $isFeatured = $request->isFeatured;
-            $isArchived = $request->isArchived;
-            $topBrands = $request->topBrands;
-            $imageName = Str::random(32) . "." . $request->image->getClientOriginalExtension();
+            $validated = $request->validated();
 
+            $name = $validated['name'];
+            $category = $validated['category'];
+            $subCategory = $validated['subCategory'];
+            $shortDescription = $validated['shortDescription'];
+            $longDescription = $validated['longDescription'];
+
+            $imageName = Str::random(32) . '.' . $request->image->getClientOriginalExtension();
             Storage::disk('public')->put($imageName, file_get_contents($request->image));
 
-            Product::create([
+            $product = Product::create([
                 'name' => $name,
                 'image' => $imageName,
                 'category' => $category,
                 'subCategory' => $subCategory,
                 'shortDescription' => $shortDescription,
                 'longDescription' => $longDescription,
-                'isFeatured' => $isFeatured,
-                'isArchived' => $isArchived,
-                'topBrands' => $topBrands,
             ]);
 
             return response()->json([
-                'success' => "Product successfully created. '$name' -- '$imageName' -- '$category' -- '$subCategory' -- '$shortDescription' -- '$longDescription' -- '$isFeatured' -- '$isArchived' -- '$topBrands'",
-            ], 200);
+                'success' => 'Product successfully created.',
+                'data' => new ProductResource($product),
+            ], 201);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => "Something went really wrong!"
+                'error' => 'Something went wrong!',
             ], 500);
         }
     }
@@ -70,13 +68,12 @@ class ProductController extends Controller
         }
 
         return response()->json([
-            'product' => $product
+            'data' => new ProductResource($product),
         ], 200);
     }
     public function update(Request $request, string $id)
     {
         try {
-            // Find product
             $product = Product::find($id);
             if (!$product) {
                 return response()->json([
@@ -84,38 +81,33 @@ class ProductController extends Controller
                 ], 404);
             }
 
-            echo "request : $request->image";
             $product->name = $request->name;
+            $product->category = $request->category;
+            $product->subCategory = $request->subCategory;
+            $product->shortDescription = $request->shortDescription;
+            $product->longDescription = $request->longDescription;
 
             if ($request->image) {
-
-                // Public storage
                 $storage = Storage::disk('public');
 
-                // Old iamge delete
                 if ($storage->exists($product->image))
                     $storage->delete($product->image);
 
-                // Image name
                 $imageName = Str::random(32) . "." . $request->image->getClientOriginalExtension();
                 $product->image = $imageName;
 
-                // Image save in public folder
                 $storage->put($imageName, file_get_contents($request->image));
             }
 
-            // Update Product
             $product->save();
 
-            // Return Json Response
             return response()->json([
-                'message' => "Product successfully updated."
+                'success' => "Product successfully updated.",
             ], 200);
 
         } catch (\Exception $e) {
-            // Return Json Response
             return response()->json([
-                'message' => "Something went really wrong!"
+                'message' => "Something went wrong!",
             ], 500);
         }
     }

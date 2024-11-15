@@ -8,5 +8,5 @@ export default async function EditProduct({
 }) {
 	const { id } = await params;
 	const product = await getProduct(id);
-	return <UpdateForm response={product} />;
+	return <UpdateForm responses={product} />;
 }

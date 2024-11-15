@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
-use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -22,24 +22,26 @@ class CategoryController extends Controller
             ], 404);
         }
     }
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-        ]);
-        if ($validator->fails()) {
+        try {
+            $validated = $request->validated();
+
+            $name = $validated['name'];
+
+            $category = Category::create([
+                'name' => $name,
+            ]);
+
             return response()->json([
-                'status' => 422,
-                'errors' => $validator->messages()
-            ], 422);
+                'success' => 'Category successfully created.',
+                'data' => new CategoryResource($category),
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Something went wrong!',
+            ], 500);
         }
-        $product = Category::create([
-            'name' => $request->name,
-        ]);
-        return response()->json([
-            'success' => 'Category created successfully',
-            "data" => new CategoryResource($product)
-        ], );
     }
     public function show(string $id)
     {
@@ -51,7 +53,7 @@ class CategoryController extends Controller
         }
 
         return response()->json([
-            'category' => $category
+            'category' => new CategoryResource($category)
         ], 200);
     }
     public function update(Request $request, string $id)
@@ -70,7 +72,6 @@ class CategoryController extends Controller
             return response()->json([
                 'success' => "Category successfully updated."
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => "Something went wrong!"

@@ -15,9 +15,6 @@ return new class extends Migration {
             $table->string('image');
             $table->mediumText('shortDescription');
             $table->longText('longDescription');
-            $table->boolean('isFeatured');
-            $table->boolean('topBrands');
-            $table->boolean('isArchived');
             $table->timestamps();
         });
     }

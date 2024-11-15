@@ -1,60 +1,73 @@
 "use client";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Navbar, Sidebar } from "@/components";
 import getCategories from "@/actions/get-categories";
-import { zodResolver } from "@hookform/resolvers/zod";
 import getSubCategories from "@/actions/get-subCategories";
-import { TpageAboutSectionData, homePageAboutSchema } from "@/schemas";
 
 export default function AddForm() {
 	const router = useRouter();
-	const [categories, setCategories] = useState();
-	const [subCategories, setSubCategories] = useState();
+
+	const [name, setName] = useState("");
+	const [category, setCategory] = useState("");
+	const [subCategory, setSubCategory] = useState("");
+	const [shortDescription, setShortDescription] = useState("");
+	const [longDescription, setLongDescription] = useState("");
+	const [image, setImage] = useState<File | null>(null);
+	const [categories, setCategories] = useState([]);
+	const [subCategories, setSubCategories] = useState([]);
+
 	useEffect(() => {
-		const getCategory = async () => {
+		const fetchCategories = async () => {
 			const data = await getCategories();
 			setCategories(data);
 		};
-		const getSubCategory = async () => {
+
+		const fetchSubCategories = async () => {
 			const data = await getSubCategories();
 			setSubCategories(data);
 		};
-		getCategory();
-		getSubCategory();
+
+		fetchCategories();
+		fetchSubCategories();
 	}, []);
 
-	const {
-		register,
-		reset,
-		handleSubmit,
-		formState: { isSubmitting, errors },
-	} = useForm<TpageAboutSectionData>({
-		resolver: zodResolver(homePageAboutSchema),
-	});
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
 
-	const onSubmits = async (data: TpageAboutSectionData) => {
-		console.log(data);
-		await axios
-			.post(`${process.env.NEXT_PUBLIC_LARAVEL_BACKEND_API_URL}/products`, data)
-			.then((response) => {
-				if (response?.data?.success) {
-					toast.success(response.data.success);
-					router.push("/products");
-					router.refresh();
-				}
-				console.log(response);
-			})
-			.catch((err) => {
-				console.log(err);
-				if (err.response) {
-					toast.error(err.response.data.message);
-					reset();
-				}
-			});
+		const formData = new FormData();
+		formData.append("name", name);
+		formData.append("category", category);
+		formData.append("subCategory", subCategory);
+		formData.append("shortDescription", shortDescription);
+		formData.append("longDescription", longDescription);
+
+		if (image) {
+			formData.append("image", image);
+		}
+
+		try {
+			const response = await axios.post(
+				`${process.env.NEXT_PUBLIC_LARAVEL_BACKEND_API_URL}/products`,
+				formData,
+				{
+					headers: { "Content-Type": "multipart/form-data" },
+				},
+			);
+			if (response?.data?.success) {
+				toast.success(response.data.success);
+				router.push("/products");
+				router.refresh();
+			}
+			console.error(response);
+		} catch (err) {
+			console.error(err);
+			if (err.response?.data?.message) {
+				toast.error(err.response.data.message);
+			}
+		}
 	};
 
 	return (
@@ -69,25 +82,24 @@ export default function AddForm() {
 						</h1>
 					</div>
 					<form
-						onSubmit={handleSubmit(onSubmits)}
+						onSubmit={handleSubmit}
 						className="w-full flex flex-col gap-4">
 						<div className="w-full flex items-center gap-2">
 							<div className="relative w-full flex flex-col gap-3">
 								<div>
 									<input
-										{...register("name")}
 										placeholder="Name"
 										type="text"
+										value={name}
+										onChange={(e) => setName(e.target.value)}
 										className="text-sm p-4 w-full font-light bg-white border-2 placeholder:text-gray-700 rounded-md outline-none"
 									/>
-									{errors.name && (
-										<span className="text-red-500">{errors.name.message}</span>
-									)}
 								</div>
 							</div>
 							<div className="relative w-full">
 								<select
-									{...register("category")}
+									value={category}
+									onChange={(e) => setCategory(e.target.value)}
 									className="text-sm p-4 w-full font-light bg-white border-2 placeholder:text-gray-700 rounded-md outline-none appearance-none pr-10"
 									defaultValue="">
 									<option
@@ -119,15 +131,11 @@ export default function AddForm() {
 										/>
 									</svg>
 								</div>
-								{errors.category && (
-									<span className="text-red-500">
-										{errors.category.message}
-									</span>
-								)}
 							</div>
 							<div className="relative w-full">
 								<select
-									{...register("subCategory")}
+									value={subCategory}
+									onChange={(e) => setSubCategory(e.target.value)}
 									className="text-sm p-4 w-full font-light bg-white border-2 placeholder:text-gray-700 rounded-md outline-none appearance-none pr-10"
 									defaultValue="">
 									<option
@@ -159,115 +167,25 @@ export default function AddForm() {
 										/>
 									</svg>
 								</div>
-								{errors.subCategory && (
-									<span className="text-red-500">
-										{errors.subCategory.message}
-									</span>
-								)}
 							</div>
 						</div>
 						<div className="w-full flex items-center gap-2">
 							<div className="relative w-full">
-								<input
-									{...register("shortDescription")}
+								<textarea
+									value={shortDescription}
+									onChange={(e) => setShortDescription(e.target.value)}
 									placeholder="Short Description"
-									type="text"
 									className="text-sm p-4 w-full font-light bg-white border-2 placeholder:text-gray-700 rounded-md outline-none"
 								/>
-								{errors.shortDescription && (
-									<span className="text-red-500">
-										{errors.shortDescription.message}
-									</span>
-								)}
 							</div>
 						</div>
 						<div className="relative w-full">
-							<input
-								{...register("longDescription")}
+							<textarea
+								value={longDescription}
+								onChange={(e) => setLongDescription(e.target.value)}
 								placeholder="Long Description"
-								type="text"
 								className="text-sm p-4 w-full font-light bg-white border-2 placeholder:text-gray-700 rounded-md outline-none"
 							/>
-							{errors.longDescription && (
-								<span className="text-red-500">
-									{errors.longDescription.message}
-								</span>
-							)}
-						</div>
-						<div className="w-full flex items-center gap-2">
-							<div className="relative w-full bg-white border-2 placeholder:text-gray-700 rounded-md outline-none">
-								<div className="flex flex-row items-start space-x-3 p-4">
-									<input
-										id="brands"
-										type="checkbox"
-										{...register("topBrands")}
-										className="w-5 h-5 cursor-pointer"
-									/>
-									<div className="space-y-1 leading-none">
-										<label
-											htmlFor="brands"
-											className="text-sm font-medium text-gray-700">
-											Top Brands
-										</label>
-										<p className="text-xs text-gray-700">Top Products Brand</p>
-									</div>
-								</div>
-								{errors.topBrands && (
-									<span className="text-red-500">
-										{errors.topBrands.message}
-									</span>
-								)}
-							</div>
-							<div className="relative w-full bg-white border-2 placeholder:text-gray-700 rounded-md outline-none">
-								<div className="flex flex-row items-start space-x-3 p-4">
-									<input
-										id="featured"
-										type="checkbox"
-										{...register("isFeatured")}
-										className="w-5 h-5 cursor-pointer"
-									/>
-									<div className="space-y-1 leading-none">
-										<label
-											htmlFor="featured"
-											className="text-sm font-medium text-gray-700">
-											Featured
-										</label>
-										<p className="text-xs text-gray-700">
-											This product will appear on home page in the store.
-										</p>
-									</div>
-								</div>
-								{errors.isFeatured && (
-									<span className="text-red-500">
-										{errors.isFeatured.message}
-									</span>
-								)}
-							</div>
-							<div className="relative w-full bg-white border-2 placeholder:text-gray-700 rounded-md outline-none">
-								<div className="flex flex-row items-start space-x-3 p-4">
-									<input
-										id="archived"
-										type="checkbox"
-										{...register("isArchived")}
-										className="w-5 h-5 cursor-pointer"
-									/>
-									<div className="space-y-1 leading-none">
-										<label
-											htmlFor="archived"
-											className="text-sm font-medium text-gray-700">
-											Archived
-										</label>
-										<p className="text-xs text-gray-700">
-											This product will not appear anywhere in the store.
-										</p>
-									</div>
-								</div>
-								{errors.isArchived && (
-									<span className="text-red-500">
-										{errors.isArchived.message}
-									</span>
-								)}
-							</div>
 						</div>
 						<div className="mb-5">
 							<label className="block text-sm font-medium text-gray-900">
@@ -275,15 +193,15 @@ export default function AddForm() {
 							</label>
 							<input
 								type="file"
-								{...register("image")}
+								accept="image/*"
+								multiple
+								onChange={(e) => setImage(e.target.files?.[0] || null)}
 								className="file-input file-input-bordered file-input-secondary w-full max-w-xs"
 							/>
 						</div>
 						<input
 							type="submit"
-							value={`${isSubmitting ? "Loading..." : "Create"}`}
 							className="w-fit text-[17px] cursor-pointer text-white font-medium bg-[#081226] px-4 py-2 rounded-lg"
-							disabled={isSubmitting}
 						/>
 					</form>
 				</div>

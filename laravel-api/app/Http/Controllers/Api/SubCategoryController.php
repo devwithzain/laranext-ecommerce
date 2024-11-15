@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\SubCategoryRequest;
 use App\Http\Resources\SubCategoryResource;
 
 class SubCategoryController extends Controller
@@ -22,26 +22,26 @@ class SubCategoryController extends Controller
             ], 404);
         }
     }
-    public function store(Request $request)
+    public function store(SubCategoryRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-        ]);
-        if ($validator->fails()) {
+        try {
+            $validated = $request->validated();
+
+            $name = $validated['name'];
+
+            $subCategory = SubCategory::create([
+                'name' => $name,
+            ]);
+
             return response()->json([
-                'status' => 422,
-                'errors' => $validator->customMessages()
-            ], 422);
+                'success' => 'Sub Category successfully created.',
+                'data' => new SubCategoryResource($subCategory),
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Something went wrong!',
+            ], 500);
         }
-        $product = SubCategory::create([
-            'name' => $request->name,
-            'category_id' => $request->category_id,
-            'category_name' => $request->category_name,
-        ]);
-        return response()->json([
-            'success' => 'SubCategory created successfully',
-            "data" => new SubCategoryResource($product)
-        ], );
     }
     public function show(string $id)
     {
@@ -53,7 +53,8 @@ class SubCategoryController extends Controller
         }
 
         return response()->json([
-            'subcategory' => $subcategory
+            'subcategory' => $subcategory,
+            'data' => new SubCategoryResource($subcategory),
         ], 200);
     }
     public function update(Request $request, string $id)
